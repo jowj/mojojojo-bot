@@ -63,7 +63,7 @@ if __name__ == "__main__":
     logging.basicConfig(filename='mojojojo.log', level=logging.INFO)
     logging.info('Started')
     if slack_client.rtm_connect(with_team_state=False):
-        print("Starter Bot connected and running!")
+        print("mojo jojo online,  connected, and running!")
         # Read bot's user ID by calling Web API method `auth.test`
         starterbot_id = slack_client.api_call("auth.test")["user_id"]
         while True:
@@ -71,6 +71,22 @@ if __name__ == "__main__":
             if command:
                 handle_command(command, channel)
             time.sleep(RTM_READ_DELAY)
+            # below section listens for shit about "AI" and adds a reaction (lul)
+            events = slack_client.rtm_read()
+            for event in events:
+                if (
+                    'channel' in event and
+                    'text' in event and
+                    event.get(type) == 'message'
+                ) :
+                    channel = event['bots-like-gaston']
+                    text = event['AI']
+                    if "AI " in text.lower and link not in text:
+                        slack_client.api_call(
+                            "reactions.add",
+                            name = thumbsup
+                        )
+                    
         logging.info("Client worked. No errors (we think lol)")
     else:
         print("Connection failed. Exception traceback printed above.")
