@@ -71,6 +71,7 @@ if __name__ == "__main__":
             if command:
                 handle_command(command, channel)
             time.sleep(RTM_READ_DELAY)
+        logging.info("Client worked. No errors (we think lol)")
     else:
         print("Connection failed. Exception traceback printed above.")
         logging.info('Check console  for exception traceback.')
