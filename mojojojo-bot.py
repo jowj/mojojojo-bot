@@ -75,12 +75,10 @@ if __name__ == "__main__":
             events = slack_client.rtm_read()
             for event in events:
                 if (
-                    'channel' in event and
-                    'text' in event and
+                    'bots-like-gaston' in event and
+                    'AI ' in event and
                     event.get(type) == 'message'
                 ) :
-                    channel = event['bots-like-gaston']
-                    text = event['AI']
                     if "AI " in text.lower and link not in text:
                         slack_client.api_call(
                             "reactions.add",
