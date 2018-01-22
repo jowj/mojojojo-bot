@@ -1,6 +1,7 @@
 import os
 import time
 import re
+import logging
 from slackclient import SlackClient
 
 
@@ -59,6 +60,8 @@ def handle_command(command, channel):
     )
 
 if __name__ == "__main__":
+    logging.basicConfig(filename='mojojojo.log', level=logging.INFO)
+    logging.info('Started')
     if slack_client.rtm_connect(with_team_state=False):
         print("Starter Bot connected and running!")
         # Read bot's user ID by calling Web API method `auth.test`
@@ -70,3 +73,5 @@ if __name__ == "__main__":
             time.sleep(RTM_READ_DELAY)
     else:
         print("Connection failed. Exception traceback printed above.")
+        logging.info('Check console  for exception traceback.')
+    logging.info('Finished')
