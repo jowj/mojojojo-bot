@@ -76,10 +76,10 @@ if __name__ == "__main__":
             for event in events:
                 if (
                     'bots-like-gaston' in event and
-                    'AI ' in event and
+                    'test' in event and
                     event.get(type) == 'message'
                 ) :
-                    if "AI " in text.lower and link not in text:
+                    if "test" in text.lower and link not in text:
                         slack_client.api_call(
                             "reactions.add",
                             name = thumbsup
