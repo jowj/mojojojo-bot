@@ -72,18 +72,18 @@ if __name__ == "__main__":
                 handle_command(command, channel)
             time.sleep(RTM_READ_DELAY)
             # below section listens for shit about "AI" and adds a reaction (lul)
-            events = slack_client.rtm_read()
-            for event in events:
-                if (
-                    'bots-like-gaston' in event and
-                    'test' in event and
-                    event.get(type) == 'message'
-                ) :
-                    if "test" in text.lower and link not in text:
-                        slack_client.api_call(
-                            "reactions.add",
-                            name = thumbsup
-                        )
+            # events = slack_client.rtm_read()
+            # for event in events:
+            #     if (
+            #         'bots-like-gaston' in event and
+            #         'test' in event and
+            #         event.get(type) == 'message'
+            #     ) :
+            #         if "test" in text.lower and link not in text:
+            #             slack_client.api_call(
+            #                 "reactions.add",
+            #                 name = thumbsup
+            #             )
                     
         logging.info("Client worked. No errors (we think lol)")
     else:
