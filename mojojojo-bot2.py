@@ -42,7 +42,7 @@ if slack_client.rtm_connect():
                     #pdb.set_trace()
                     slack_client.api_call(
                         'reactions.add',
-                        channel = get_channel_ID(bot_channel),
+                        channel = get_channel_ID("BOTS"),
                         name = "thumbsup",
                         timestamp = event.get('ts')
                     )
