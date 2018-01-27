@@ -39,10 +39,10 @@ if slack_client.rtm_connect():
                 text = event['text']
                 if 'blah' in text.lower():
                     print(event.get('ts')) # does this populate
-                    #pdb.set_trace()
+                    pdb.set_trace()
                     slack_client.api_call(
                         'reactions.add',
-                        channel = get_channel_ID("BOTS"),
+                        channel = get_channel_ID("bots-like-gaston"),
                         name = "thumbsup",
                         timestamp = event.get('ts')
                     )

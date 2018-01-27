@@ -29,6 +29,21 @@ def parse_bot_commands(slack_events):
             user_id, message = parse_direct_mention(event["text"])
             if user_id == starterbot_id:
                 return message, event["channel"]
+            # trying to adapt mojojojo-bot2 code here
+            if reactable_message(event):
+                channel = event['channel']
+                text = event['text']
+                if 'blah' in text.lower():
+                    reactable_timestamp = event.get('ts')
+                    return channel, event, reactable_timestamp
+                    # print(event.get('ts')) # does this populate
+                    # #pdb.set_trace()
+                    # slack_client.api_call(
+                    #     'reactions.add',
+                    #     channel = get_channel_ID("BOTS"),
+                    #     name = "thumbsup",
+                    #     timestamp = event.get('ts')
+                    # )
     return None, None
 
 def parse_direct_mention(message_text):
@@ -87,20 +102,21 @@ if __name__ == "__main__":
             if command:
                 handle_command(command, channel)
             time.sleep(RTM_READ_DELAY)
-            events = slack_client.rtm_read()
-            for event in events:
-                if reactable_message(event):
-                    channel = event['channel']
-                    text = event['text']
-                    if 'blah' in text.lower():
-                        print(event.get('ts')) # does this populate
-                        #pdb.set_trace()
-                        slack_client.api_call(
-                            'reactions.add',
-                            channel = get_channel_ID("BOTS"),
-                            name = "thumbsup",
-                            timestamp = event.get('ts')
-                        )
+            # mojojojo-bot2 functionality below in loop.
+            # events = slack_client.rtm_read()
+            # for event in events:
+            #     if reactable_message(event):
+            #         channel = event['channel']
+            #         text = event['text']
+            #         if 'blah' in text.lower():
+            #             print(event.get('ts')) # does this populate
+            #             #pdb.set_trace()
+            #             slack_client.api_call(
+            #                 'reactions.add',
+            #                 channel = get_channel_ID("BOTS"),
+            #                 name = "thumbsup",
+            #                 timestamp = event.get('ts')
+            #             )
             time.sleep(1)
         logging.info("Client worked. No errors (we think lol)")
     else:
