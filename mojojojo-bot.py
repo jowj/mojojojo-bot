@@ -3,6 +3,9 @@ import time
 import re
 import logging
 from slackclient import SlackClient
+import pdb
+
+# combine mojojojo1 and 2.
 
 # instantiate Slack client
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
@@ -22,11 +25,10 @@ def parse_bot_commands(slack_events):
         If a bot command is found, this function returns a tuple of command and channel.
         If its not found, then this function returns None, None.
     """
-    for event in slack_events:
-        if event["type"] == "message" and not "subtype" in event:
-            user_id, message = parse_direct_mention(event["text"])
-            if user_id == starterbot_id:
-                return message, event["channel"]
+    if event["type"] == "message" and not "subtype" in event:
+        user_id, message = parse_direct_mention(event["text"])
+        if user_id == starterbot_id:
+            return message, event["channel"]
     return None, None
 
 def parse_direct_mention(message_text):
@@ -81,9 +83,23 @@ if __name__ == "__main__":
         # Read bot's user ID by calling Web API method `auth.test`
         starterbot_id = slack_client.api_call("auth.test")["user_id"]
         while True:
-            command, channel = parse_bot_commands(slack_client.rtm_read())
-            if command:
-                handle_command(command, channel)
+            for event in (slack_client.rtm_read()):
+                pdb.set_trace
+                command, channel = parse_bot_commands(event)
+                if command:
+                    handle_command(command, channel)
+                if reactable_message(event):
+                    channel = event['channel']
+                    text = event['text']
+                    if 'blah' in text.lower():
+                        print(event.get('ts')) # does this populate
+                        #pdb.set_trace()
+                        slack_client.api_call(
+                            'reactions.add',
+                            channel = get_channel_ID("bots-like-gaston"),
+                            name = "thumbsup",
+                            timestamp = event.get('ts')
+                        )
             time.sleep(RTM_READ_DELAY)
         logging.info("Client worked. No errors (we think lol)")
     else:
