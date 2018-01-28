@@ -4,8 +4,9 @@ import re
 import logging
 from slackclient import SlackClient
 import pdb
-
-# combine mojojojo1 and 2.
+from json import JSONDecoder
+from random import randint
+from functools import partial
 
 # instantiate Slack client
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
@@ -40,6 +41,30 @@ def parse_direct_mention(message_text):
     # the first group contains the username, the second group contains the remaining message
     return (matches.group(1), matches.group(2).strip()) if matches else (None, None)
 
+def select_noun():
+    with open('corpora1\corpora.json', 'r') as infh:
+        for data in json_parse(infh):
+            upper_Limit = len(data["nouns"])
+            x = randint(0, upper_Limit)
+            # pdb.set_trace()
+            if data["nouns"][x]:
+                return(data["nouns"][x])
+            else:
+                return("car")
+
+def json_parse(fileobj, decoder=JSONDecoder(), buffersize=2048):
+    buffer = ''
+    for chunk in iter(partial(fileobj.read, buffersize), ''):
+         buffer += chunk
+         while buffer:
+             try:
+                 result, index = decoder.raw_decode(buffer)
+                 yield result
+                 buffer = buffer[index:]
+             except ValueError:
+                 # Not enough data to decode, read more
+                 break
+
 def handle_command(command, channel):
     """
         Executes bot command if the command is known
@@ -54,6 +79,8 @@ def handle_command(command, channel):
         response = "Sure...write some more code then I can do that!"
     if command.startswith("say"):
         response = "you're not my real dad"
+    if command.startswith("download"):
+        response = "you wouldn't download a %s" % (select_noun())
 
     # Sends the response back to the channel
     slack_client.api_call(
