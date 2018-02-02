@@ -3,8 +3,6 @@ import time
 import re
 import logging
 from slackclient import SlackClient
-import pdb
-
 
 # instantiate Slack client
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
@@ -39,7 +37,6 @@ if slack_client.rtm_connect():
                 text = event['text']
                 if 'blah' in text.lower():
                     print(event.get('ts')) # does this populate
-                    pdb.set_trace()
                     slack_client.api_call(
                         'reactions.add',
                         channel = get_channel_ID("bots-like-gaston"),

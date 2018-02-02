@@ -3,7 +3,6 @@ import time
 import re
 import logging
 from slackclient import SlackClient
-import pdb
 from json import JSONDecoder
 from random import randint
 from functools import partial
@@ -13,7 +12,7 @@ slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 # starterbot's user ID in Slack: value is assigned after the bot starts up
 starterbot_id = None
 # channel i want to get ID from
-bot_channel = "bots-like-gaston"
+bot_channel = "inmyimo"
 
 # constants
 RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
@@ -42,11 +41,10 @@ def parse_direct_mention(message_text):
     return (matches.group(1), matches.group(2).strip()) if matches else (None, None)
 
 def select_noun():
-    with open('corpora1\corpora.json', 'r') as infh:
+    with open('/mjj1/corpora.json', 'r') as infh:
         for data in json_parse(infh):
             upper_Limit = len(data["nouns"])
             x = randint(0, upper_Limit)
-            # pdb.set_trace()
             if data["nouns"][x]:
                 return(data["nouns"][x])
             else:
@@ -111,20 +109,18 @@ if __name__ == "__main__":
         starterbot_id = slack_client.api_call("auth.test")["user_id"]
         while True:
             for event in (slack_client.rtm_read()):
-                pdb.set_trace
                 command, channel = parse_bot_commands(event)
                 if command:
                     handle_command(command, channel)
                 if reactable_message(event):
                     channel = event['channel']
                     text = event['text']
-                    if 'blah' in text.lower():
+                    if 'ai ' in text.lower():
                         print(event.get('ts')) # does this populate
-                        #pdb.set_trace()
                         slack_client.api_call(
                             'reactions.add',
-                            channel = get_channel_ID("bots-like-gaston"),
-                            name = "thumbsup",
+                            channel = get_channel_ID("inmyimo"),
+                            name = "robot_face",
                             timestamp = event.get('ts')
                         )
             time.sleep(RTM_READ_DELAY)
