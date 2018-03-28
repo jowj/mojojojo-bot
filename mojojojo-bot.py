@@ -123,6 +123,20 @@ if __name__ == "__main__":
                             name = "robot_face",
                             timestamp = event.get('ts')
                         )
+                    if 'furry' in text.lower() or 'furries' in text.lower():
+                        print(event.get('ts')) # does this populate
+                        slack_client.api_call(
+                            'reactions.add',
+                            channel = get_channel_ID("inmyimo"),
+                            name = "eggplant",
+                            timestamp = event.get('ts')
+                        )
+                        slack_client.api_call(
+                            'reactions.add',
+                            channel = get_channel_ID("inmyimo"),
+                            name = "sweat_drops",
+                            timestamp = event.get('ts')
+                        )
             time.sleep(RTM_READ_DELAY)
         logging.info("Client worked. No errors (we think lol)")
     else:
