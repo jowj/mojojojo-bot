@@ -148,7 +148,7 @@ if __name__ == "__main__":
                         slack_client.api_call(
                             'reactions.add',
                             channel = get_channel_ID("inmyimo"),
-                            name = "fries",
+                            name = "guyfieri",
                             timestamp = event.get('ts')
                         )
             time.sleep(RTM_READ_DELAY)
