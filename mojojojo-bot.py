@@ -137,6 +137,20 @@ if __name__ == "__main__":
                             name = "sweat_drops",
                             timestamp = event.get('ts')
                         )
+                    if 'flavor town' in text.lower() or 'flavortown' in text.lower() or 'guy fieri' in text.lower():
+                        print(event.get('ts')) # does this populate
+                        slack_client.api_call(
+                            'reactions.add',
+                            channel = get_channel_ID("inmyimo"),
+                            name = "dark_sunglasses",
+                            timestamp = event.get('ts')
+                        )
+                        slack_client.api_call(
+                            'reactions.add',
+                            channel = get_channel_ID("inmyimo"),
+                            name = "fries",
+                            timestamp = event.get('ts')
+                        )
             time.sleep(RTM_READ_DELAY)
         logging.info("Client worked. No errors (we think lol)")
     else:
