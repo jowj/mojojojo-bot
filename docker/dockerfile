@@ -1,0 +1,17 @@
+FROM alpine:3.7
+LABEL maintainer "me@jowj.net"
+
+ENV SLACK_BOT_TOKEN=
+
+RUN apk update
+
+RUN apk add \
+    python3 \ 
+    python-dev    
+
+RUN python3 -m pip install --upgrade pip \
+    && python3 -m pip install slackclient
+
+COPY ./ ./
+
+RUN python3 ./mojojojo-bot.py
