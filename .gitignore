@@ -1,0 +1,8 @@
+.git
+bin
+include
+lib
+local
+mojojojo.log
+mojojojo/
+.vscode
