@@ -108,6 +108,14 @@ def reactable_string(text):
         reactable_array.append('flavortown')
     return reactable_array
 
+def react_to_message(reaction):
+    slack_client.api_call(
+        'reactions.add',
+        channel = get_channel_ID("inmyimo"),
+        name = reaction,
+        timestamp = event.get('ts')
+    )
+
 def get_channel_ID(channelName):
     for channel in slack_client.api_call('channels.list')["channels"]:
         if channel["name"] == channelName:
@@ -131,41 +139,13 @@ if __name__ == "__main__":
                     text = event['text']
                     reactions_needed = reactable_string(text)
                     if 'ai' in reactions_needed:
-                        print(event.get('ts')) # does this populate
-                        slack_client.api_call(
-                            'reactions.add',
-                            channel = get_channel_ID("inmyimo"),
-                            name = "robot_face",
-                            timestamp = event.get('ts')
-                        )
+                        react_to_message("robot_face")
                     if 'furry' in reactions_needed:
-                        print(event.get('ts')) # does this populate
-                        slack_client.api_call(
-                            'reactions.add',
-                            channel = get_channel_ID("inmyimo"),
-                            name = "eggplant",
-                            timestamp = event.get('ts')
-                        )
-                        slack_client.api_call(
-                            'reactions.add',
-                            channel = get_channel_ID("inmyimo"),
-                            name = "sweat_drops",
-                            timestamp = event.get('ts')
-                        )
+                        react_to_message("eggplant")
+                        react_to_message("sweat_drops")
                     if 'flavortown' in reactions_needed:
-                        print(event.get('ts')) # does this populate
-                        slack_client.api_call(
-                            'reactions.add',
-                            channel = get_channel_ID("inmyimo"),
-                            name = "dark_sunglasses",
-                            timestamp = event.get('ts')
-                        )
-                        slack_client.api_call(
-                            'reactions.add',
-                            channel = get_channel_ID("inmyimo"),
-                            name = "guyfieri",
-                            timestamp = event.get('ts')
-                        )
+                        react_to_message("dark_sunglasses")
+                        react_to_message("guyfieri")
             time.sleep(RTM_READ_DELAY)
         logging.info("Client worked. No errors (we think lol)")
     else:
