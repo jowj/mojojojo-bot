@@ -94,6 +94,21 @@ def reactable_message(event):
     """
     return 'channel' in event and 'text' in event and event.get('type') == 'message'
 
+def reactable_string(text):
+    """Return regex objects matching interesting strings
+    """
+    reactable_array = []
+    if 'ai' in text.lower():
+        re.search(r"\bai\b", text)
+        reactable_array.append('ai')
+    if 'furry' in text.lower() or 'furries' in text.lower() or 'fursuit' in text.lower():
+        # no processing needed because: honestly its funnier even if it gets the word boundary wrong.
+        reactable_array.append('furry')
+    if 'flavor town' in text.lower() or 'flavortown' in text.lower() or 'guy fieri' in text.lower():
+        # no processing needed because: honestly its funnier even if it gets the word boundary wrong.
+        reactablearray.append('flavortown')
+    return reactable_array
+
 def get_channel_ID(channelName):
     for channel in slack_client.api_call('channels.list')["channels"]:
         if channel["name"] == channelName:
@@ -115,7 +130,8 @@ if __name__ == "__main__":
                 if reactable_message(event):
                     channel = event['channel']
                     text = event['text']
-                    if 'ai ' in text.lower():
+                    reactions_needeed = reactable_string(text)
+                    if 'ai ' in reactions_needed:
                         print(event.get('ts')) # does this populate
                         slack_client.api_call(
                             'reactions.add',
@@ -123,7 +139,7 @@ if __name__ == "__main__":
                             name = "robot_face",
                             timestamp = event.get('ts')
                         )
-                    if 'furry' in text.lower() or 'furries' in text.lower():
+                    if 'furry' in reactions_needed:
                         print(event.get('ts')) # does this populate
                         slack_client.api_call(
                             'reactions.add',
@@ -137,7 +153,7 @@ if __name__ == "__main__":
                             name = "sweat_drops",
                             timestamp = event.get('ts')
                         )
-                    if 'flavor town' in text.lower() or 'flavortown' in text.lower() or 'guy fieri' in text.lower():
+                    if 'flavortown' in reactions_needed:
                         print(event.get('ts')) # does this populate
                         slack_client.api_call(
                             'reactions.add',
