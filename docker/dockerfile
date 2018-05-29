@@ -1,8 +1,6 @@
 FROM alpine:3.7
 LABEL maintainer "me@jowj.net"
 
-ENV SLACK_BOT_TOKEN=
-
 RUN apk update
 
 RUN apk add \
