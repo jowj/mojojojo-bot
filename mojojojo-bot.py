@@ -15,9 +15,10 @@ starterbot_id = None
 bot_channel = "inmyimo"
 
 # constants
-RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
+RTM_READ_DELAY = 1   # 1 second delay between reading from RTM
 EXAMPLE_COMMAND = "do"
 MENTION_REGEX = "^<@(|[WU].+)>(.*)"
+
 
 def parse_bot_commands(slack_events):
     """
@@ -31,6 +32,7 @@ def parse_bot_commands(slack_events):
             return message, event["channel"]
     return None, None
 
+
 def parse_direct_mention(message_text):
     """
         Finds a direct mention (a mention that is at the beginning) in message text
@@ -39,6 +41,7 @@ def parse_direct_mention(message_text):
     matches = re.search(MENTION_REGEX, message_text)
     # the first group contains the username, the second group contains the remaining message
     return (matches.group(1), matches.group(2).strip()) if matches else (None, None)
+
 
 def select_noun():
     with open('/mjj1/corpora.json', 'r') as infh:
@@ -50,6 +53,7 @@ def select_noun():
             else:
                 return("car")
 
+            
 def json_parse(fileobj, decoder=JSONDecoder(), buffersize=2048):
     buffer = ''
     for chunk in iter(partial(fileobj.read, buffersize), ''):
@@ -63,6 +67,7 @@ def json_parse(fileobj, decoder=JSONDecoder(), buffersize=2048):
                  # Not enough data to decode, read more
                  break
 
+             
 def handle_command(command, channel):
     """
         Executes bot command if the command is known
@@ -87,12 +92,14 @@ def handle_command(command, channel):
         text=response or default_response
     )
 
+
 def reactable_message(event):
     """Test whether a (Slack) event is a reaction-able message
 
     Check whether it's not a DM, it's not empty, and it's actually a message
     """
     return 'channel' in event and 'text' in event and event.get('type') == 'message'
+
 
 def reactable_string(text):
     """Return regex objects matching interesting strings
@@ -108,6 +115,7 @@ def reactable_string(text):
         reactable_array.append('flavortown')
     return reactable_array
 
+
 def react_to_message(reaction):
     slack_client.api_call(
         'reactions.add',
@@ -116,11 +124,13 @@ def react_to_message(reaction):
         timestamp = event.get('ts')
     )
 
+
 def get_channel_ID(channelName):
     for channel in slack_client.api_call('channels.list')["channels"]:
         if channel["name"] == channelName:
             return channel["id"]
     raise Exception("couldn't find channel requested.")
+
 
 if __name__ == "__main__":
     logging.basicConfig(filename='mojojojo.log', level=logging.INFO)
