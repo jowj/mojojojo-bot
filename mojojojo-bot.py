@@ -162,9 +162,9 @@ if __name__ == "__main__":
                 if command:
                     handle_command(command, channel)
                 if results_file.is_file():
+                    logging.info("the if statement passed!")
                     react_to_monitoring()
                 if reactable_message(event):
-                    logging.info("the if statement passed!")
                     channel = event['channel']
                     text = event['text']
                     reactions_needed = reactable_string(text)
