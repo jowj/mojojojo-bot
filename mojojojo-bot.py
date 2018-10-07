@@ -129,11 +129,11 @@ def react_to_message(reaction):
 
 
 def react_to_monitoring():    
-    results_file = Path("/shared/results.json")
+    results_file = Path("/shared/alerts.log")
     does_file_exist = results_file.is_file()
     logging.info(f"file exists: {does_file_exist}")
     if results_file.is_file():
-        open_file = open("/shared/results.json","r")
+        open_file = open("/shared/alerts.log","r")
         logging.info('in file exists conditional')
         for line in open_file:
             logging.info('examining item: '+line)
@@ -142,7 +142,7 @@ def react_to_monitoring():
             channel = get_channel_ID("bots-like-gaston"),
             text = line
             )
-        os.remove("/shared/results.json")
+        os.remove("/shared/alerts.log")
 
 
 def get_channel_ID(channelName):
@@ -155,7 +155,7 @@ def get_channel_ID(channelName):
 if __name__ == "__main__":
     logging.basicConfig(filename='mojojojo.log', level=logging.INFO)
     logging.info('Started')
-    results_file = Path("/shared/results.json")
+    results_file = Path("/shared/alerts.log")
     if slack_client.rtm_connect(with_team_state=False):
         print("mojo jojo online,  connected, and running!")
         # Read bot's user ID by calling Web API method `auth.test`
