@@ -161,13 +161,13 @@ if __name__ == "__main__":
         # Read bot's user ID by calling Web API method `auth.test`
         starterbot_id = slack_client.api_call("auth.test")["user_id"]
         while True:
+            if results_file.is_file():
+                logging.info("results_file ifstatement passed!")
+                react_to_monitoring()            
             for event in (slack_client.rtm_read()):
                 command, channel = parse_bot_commands(event)
                 if command:
                     handle_command(command, channel)
-                if results_file.is_file():
-                    logging.info("results_file ifstatement passed!")
-                    react_to_monitoring()
                 if reactable_message(event):
                     channel = event['channel']
                     text = event['text']
