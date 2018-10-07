@@ -130,9 +130,12 @@ def react_to_message(reaction):
 
 def react_to_monitoring():    
     results_file = Path("/results.json")
+    logging.info('file exists: '+results_file.is_file())
     if results_file.is_file():
         open_file = open("/results.json","r")
+        logging.info('in file exists conditional')
         for line in open_file:
+            logging.info('examining item: '+line)
             slack_client.api_call(
             "chat.postMessage",
             channel = get_channel_ID("bots-like-gaston"),
