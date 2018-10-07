@@ -2,6 +2,9 @@ import os
 import time
 import re
 import logging
+import json
+
+from pathlib import Path
 from slackclient import SlackClient
 from json import JSONDecoder
 from random import randint
@@ -125,6 +128,19 @@ def react_to_message(reaction):
     )
 
 
+def react_to_monitoring(filename):    
+    results_file = os.Path("results.json")
+    if results_file.is_file():
+        results_file = open(filename,"r")
+        for line in results_file:
+            slack_client.api_call(
+            "chat.postMessage",
+            get_channel_ID("bots-like-gaston"),
+            text=line
+            )
+        os.remove(filename)
+
+
 def get_channel_ID(channelName):
     for channel in slack_client.api_call('channels.list')["channels"]:
         if channel["name"] == channelName:
@@ -135,6 +151,7 @@ def get_channel_ID(channelName):
 if __name__ == "__main__":
     logging.basicConfig(filename='mojojojo.log', level=logging.INFO)
     logging.info('Started')
+    results_file = Path("results.json")
     if slack_client.rtm_connect(with_team_state=False):
         print("mojo jojo online,  connected, and running!")
         # Read bot's user ID by calling Web API method `auth.test`
@@ -144,6 +161,8 @@ if __name__ == "__main__":
                 command, channel = parse_bot_commands(event)
                 if command:
                     handle_command(command, channel)
+                if results_file.is_file():
+                    react_to_monitoring(results_file)
                 if reactable_message(event):
                     channel = event['channel']
                     text = event['text']
