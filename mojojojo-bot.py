@@ -131,11 +131,11 @@ def react_to_message(reaction):
 def react_to_monitoring():    
     results_file = Path("/results.json")
     if results_file.is_file():
-        results_file = open("/results.json","r")
-        for line in results_file:
+        open_file = open("/results.json","r")
+        for line in open_file:
             slack_client.api_call(
             "chat.postMessage",
-            get_channel_ID("bots-like-gaston"),
+            channel = get_channel_ID("bots-like-gaston"),
             text=line
             )
         os.remove("/results.json")
@@ -162,7 +162,7 @@ if __name__ == "__main__":
                 if command:
                     handle_command(command, channel)
                 if results_file.is_file():
-                    logging.info("the if statement passed!")
+                    logging.info("results_file ifstatement passed!")
                     react_to_monitoring()
                 if reactable_message(event):
                     channel = event['channel']
