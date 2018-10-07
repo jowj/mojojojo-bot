@@ -151,6 +151,7 @@ def get_channel_ID(channelName):
 if __name__ == "__main__":
     logging.basicConfig(filename='mojojojo.log', level=logging.INFO)
     logging.info('Started')
+    results_file = Path("/results.json")
     if slack_client.rtm_connect(with_team_state=False):
         print("mojo jojo online,  connected, and running!")
         # Read bot's user ID by calling Web API method `auth.test`
