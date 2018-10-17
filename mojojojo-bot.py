@@ -76,17 +76,23 @@ def handle_command(command, channel):
         Executes bot command if the command is known
     """
     # Default response is help text for the user
-    default_response = "fuck off bithc"
-
-    # Finds and executes the given command, filling in response
+    default_response = "tell j- to actually fucking write somthing."
     response = None
-    # This is where you start to implement more commands!
+
     if command.startswith(EXAMPLE_COMMAND):
         response = "Sure...write some more code then I can do that!"
     if command.startswith("say"):
         response = "you're not my real dad"
     if command.startswith("download"):
         response = "you wouldn't download a %s" % (select_noun())
+    if "arke" in command:
+        results_file = Path("/shared/results.json")
+        if results_file.is_file():
+            open_file = open(results_file)
+            for line in open_file:
+                response = line
+        else: 
+            response = "Most recent status failed to write to file :("
 
     # Sends the response back to the channel
     slack_client.api_call(
