@@ -93,7 +93,7 @@ def handle_command(command, channel):
                 response = line
         else: 
             response = "Most recent status failed to write to file :("
-    if "pence" in command:
+    if "pence" in command.lower():
         response = "Mother wouldn't want me to say that"
 
     # Sends the response back to the channel
