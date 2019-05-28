@@ -10,7 +10,7 @@ RUN apk add \
 
 RUN python3 -m pip install --upgrade pip
 
-RUN python3 -m pip install slackclient==2.0.0
+RUN python3 -m pip install slackclient==1.0.0
 
 COPY ./ ./
 
