@@ -5,7 +5,8 @@ RUN apk update
 
 RUN apk add \
     python3 \ 
-    python-dev    
+    python-dev \
+    libffi-dev
 
 RUN python3 -m pip install --upgrade pip
 
