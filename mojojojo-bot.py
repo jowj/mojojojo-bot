@@ -5,13 +5,13 @@ import logging
 import json
 
 from pathlib import Path
-from slackclient import SlackClient
+from slack import WebClient
 from json import JSONDecoder
 from random import randint
 from functools import partial
 
 # instantiate Slack client
-slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
+slack_client = WebClient(os.environ.get('SLACK_BOT_TOKEN'))
 # starterbot's user ID in Slack: value is assigned after the bot starts up
 starterbot_id = None
 # channel i want to get ID from
