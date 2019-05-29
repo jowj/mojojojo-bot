@@ -5,12 +5,16 @@ RUN apk update
 
 RUN apk add \
     python3 \ 
-    python-dev \
+    python3-dev \
     libffi-dev
 
-RUN python3 -m pip install --upgrade pip
+RUN apk add --no-cache curl python pkgconfig python-dev openssl-dev libffi-dev musl-dev make gcc
 
-RUN python3 -m pip install slackclient==1.0.0
+RUN pip3 install --upgrade pip
+
+RUN pip3 install --upgrade setuptools
+
+RUN pip3 install slackclient
 
 COPY ./ ./
 
