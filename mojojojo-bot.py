@@ -5,13 +5,13 @@ import logging
 import json
 
 from pathlib import Path
-from slack import WebClient
+from slackclient import SlackClient
 from json import JSONDecoder
 from random import randint
 from functools import partial
 
 # instantiate Slack client
-slack_client = WebClient(os.environ.get('SLACK_BOT_TOKEN'))
+slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 # starterbot's user ID in Slack: value is assigned after the bot starts up
 starterbot_id = None
 # channel i want to get ID from
@@ -106,7 +106,6 @@ def handle_command(command, channel):
 
 def reactable_message(event):
     """Test whether a (Slack) event is a reaction-able message
-
     Check whether it's not a DM, it's not empty, and it's actually a message
     """
     return 'channel' in event and 'text' in event and event.get('type') == 'message'
@@ -193,4 +192,4 @@ if __name__ == "__main__":
     else:
         print("Connection failed. Exception traceback printed above.")
         logging.info('Check console  for exception traceback.')
-    logging.info('Finished')
+logging.info('Finished')
